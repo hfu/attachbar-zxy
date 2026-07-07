@@ -1,0 +1,13 @@
+{
+  "name": "@attachbar-zxy/maplibre-adapter",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "@attachbar-zxy/core": "0.1.0",
+    "@attachbar-zxy/dom-renderer": "0.1.0"
+  }
+}
