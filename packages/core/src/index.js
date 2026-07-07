@@ -8,10 +8,10 @@ export function tileFromLngLat(lng, lat, z) {
   const zoom = Math.max(0, Math.floor(Number.isFinite(z) ? z : 0));
   const n = 2 ** zoom;
 
-  const normalizedLng = ((lng % 360) + 360) % 360;
+  const clampedLng = clamp(lng, -180, 180);
   const clampedLat = clamp(lat, -MAX_MERCATOR_LAT, MAX_MERCATOR_LAT);
 
-  const x = Math.floor((normalizedLng / 360) * n);
+  const x = Math.floor(((clampedLng + 180) / 360) * n);
   const latRad = (clampedLat * Math.PI) / 180;
   const yRaw =
     ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) * n;
@@ -51,37 +51,79 @@ export function generateAnchors({ map, zoom, sides = ["top", "left"], sampleStep
 
   if (sides.includes("top") && width > 0) {
     let previousX;
+    let previousPx;
     for (const px of sampleAlongLength(width, step)) {
       const lngLat = map.unproject([px, 0]);
       const tile = tileFromLngLat(lngLat.lng, lngLat.lat, z);
       if (previousX === undefined || previousX !== tile.x) {
-        anchors.push({
-          side: "top",
-          lngLat: [lngLat.lng, lngLat.lat],
-          value: tile.x,
-          axis: "x",
-          priority: inferPriority(px)
-        });
+        if (previousX !== undefined) {
+          // Calculate midpoint between previous tile start and current tile start
+          const midpointPx = (previousPx + px) / 2;
+          const midpointLngLat = map.unproject([midpointPx, 0]);
+          anchors.push({
+            side: "top",
+            lngLat: [midpointLngLat.lng, midpointLngLat.lat],
+            value: previousX,
+            axis: "x",
+            priority: inferPriority(midpointPx),
+            _pixelPos: midpointPx
+          });
+        }
         previousX = tile.x;
+        previousPx = px;
       }
+    }
+    // Handle last tile
+    if (previousX !== undefined) {
+      const midpointPx = (previousPx + width) / 2;
+      const midpointLngLat = map.unproject([midpointPx, 0]);
+      anchors.push({
+        side: "top",
+        lngLat: [midpointLngLat.lng, midpointLngLat.lat],
+        value: previousX,
+        axis: "x",
+        priority: inferPriority(midpointPx),
+        _pixelPos: midpointPx
+      });
     }
   }
 
   if (sides.includes("left") && height > 0) {
     let previousY;
+    let previousPy;
     for (const py of sampleAlongLength(height, step)) {
       const lngLat = map.unproject([0, py]);
       const tile = tileFromLngLat(lngLat.lng, lngLat.lat, z);
       if (previousY === undefined || previousY !== tile.y) {
-        anchors.push({
-          side: "left",
-          lngLat: [lngLat.lng, lngLat.lat],
-          value: tile.y,
-          axis: "y",
-          priority: inferPriority(py)
-        });
+        if (previousY !== undefined) {
+          // Calculate midpoint between previous tile start and current tile start
+          const midpointPy = (previousPy + py) / 2;
+          const midpointLngLat = map.unproject([0, midpointPy]);
+          anchors.push({
+            side: "left",
+            lngLat: [midpointLngLat.lng, midpointLngLat.lat],
+            value: previousY,
+            axis: "y",
+            priority: inferPriority(midpointPy),
+            _pixelPos: midpointPy
+          });
+        }
         previousY = tile.y;
+        previousPy = py;
       }
+    }
+    // Handle last tile
+    if (previousY !== undefined) {
+      const midpointPy = (previousPy + height) / 2;
+      const midpointLngLat = map.unproject([0, midpointPy]);
+      anchors.push({
+        side: "left",
+        lngLat: [midpointLngLat.lng, midpointLngLat.lat],
+        value: previousY,
+        axis: "y",
+        priority: inferPriority(midpointPy),
+        _pixelPos: midpointPy
+      });
     }
   }
 

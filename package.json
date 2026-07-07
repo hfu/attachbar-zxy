@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "test": "node --test",
-    "build": "vite build && cp docs-dist/index.html docs/index.html",
+    "build": "vite build",
     "dev": "vite",
     "preview": "vite preview"
   },
