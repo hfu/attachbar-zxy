@@ -25,3 +25,7 @@ map.addControl(control, 'top-left');
 ```
 
 projection が `globe` のときは自動で非表示になり、`mercator` などの flat projection に戻ると再表示します。
+
+## Demo (GitHub Pages)
+
+GitHub Pages 用のデモは `/docs/index.html` にあります。
