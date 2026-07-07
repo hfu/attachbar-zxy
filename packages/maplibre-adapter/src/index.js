@@ -48,6 +48,7 @@ export class AttachbarZxyControl {
     this._onMove = null;
     this._onZoom = null;
     this._onResize = null;
+    this._onMapChange = null;
     this._onProjectionChange = this.onProjectionChange.bind(this);
   }
 
@@ -62,9 +63,10 @@ export class AttachbarZxyControl {
 
     const throttled = throttle(() => this.update(), DEFAULT_THROTTLE_MS);
     this.throttled = throttled;
-    this._onMove = throttled.run;
-    this._onZoom = throttled.run;
-    this._onResize = throttled.run;
+    this._onMapChange = throttled.run;
+    this._onMove = this._onMapChange;
+    this._onZoom = this._onMapChange;
+    this._onResize = this._onMapChange;
 
     map.on("move", this._onMove);
     map.on("zoom", this._onZoom);
