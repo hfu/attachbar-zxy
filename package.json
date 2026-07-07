@@ -10,7 +10,20 @@
     "packages/maplibre-adapter"
   ],
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "build": "vite build && cp docs-dist/index.html docs/index.html",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "maplibre-gl": "^5.19.0",
+    "pmtiles": "^4.4.0",
+    "maplibre-gl-layer-control": "^0.17.4",
+    "@protomaps/basemaps": "^5.7.0"
+  },
+  "devDependencies": {
+    "vite": "^6.4.0",
+    "vite-plugin-singlefile": "^2.0.0"
   },
   "repository": {
     "type": "git",
