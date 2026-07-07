@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { AttachbarZxyControl } from '../packages/maplibre-adapter/src/index.js';
 
+const MERCATOR_LAT_SPAN = 170.102258;
+
 class FakeElement {
   constructor(tagName = 'div') {
     this.tagName = tagName;
@@ -60,8 +62,8 @@ function createFakeMap() {
     },
     getContainer: () => ({ clientWidth: 256, clientHeight: 256 }),
     getZoom: () => 3,
-    unproject: ([x, y]) => ({ lng: (x / 256) * 360 - 180, lat: 85.051129 - (y / 256) * 170.102258 }),
-    project: ([lng, lat]) => ({ x: ((lng + 180) / 360) * 256, y: ((85.051129 - lat) / 170.102258) * 256 })
+    unproject: ([x, y]) => ({ lng: (x / 256) * 360 - 180, lat: 85.051129 - (y / 256) * MERCATOR_LAT_SPAN }),
+    project: ([lng, lat]) => ({ x: ((lng + 180) / 360) * 256, y: ((85.051129 - lat) / MERCATOR_LAT_SPAN) * 256 })
   };
 }
 
