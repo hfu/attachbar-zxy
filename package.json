@@ -1,0 +1,20 @@
+{
+  "name": "attachbar-zxy",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Spatial ID²対応 Attach Bar (MapLibre Control)",
+  "type": "module",
+  "workspaces": [
+    "packages/core",
+    "packages/dom-renderer",
+    "packages/maplibre-adapter"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hfu/attachbar-zxy.git"
+  },
+  "license": "MIT"
+}
