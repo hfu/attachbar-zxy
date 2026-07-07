@@ -1,0 +1,30 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.attachbar-sidebar {
+  color: #0b1736;
+  font: 12px/1.2 system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+}
+
+.attachbar-label {
+  transform: translate(-50%, 0);
+  padding: 2px 4px;
+  background: rgb(255 255 255 / 75%);
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.attachbar-sidebar--left .attachbar-label {
+  transform: translate(0, -50%);
+}
