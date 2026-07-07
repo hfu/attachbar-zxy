@@ -98,9 +98,9 @@ export function renderLabels(sidebarElements, anchors, { zoom, formatter, visibi
       label.style.left = "0";
     }
 
-    const axisValue = anchor.side === "top" ? "x" : "y";
+    const axis = anchor.side === "top" ? "x" : "y";
     label.textContent = formatter
-      ? formatter(anchor.value, { side: anchor.side, zoom, value: axisValue })
+      ? formatter(anchor.value, { side: anchor.side, zoom, axis, value: axis })
       : String(anchor.value);
     sideEl.appendChild(label);
   }
